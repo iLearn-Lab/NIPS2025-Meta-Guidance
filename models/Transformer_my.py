@@ -3,8 +3,11 @@ import torch.nn as nn
 import torch.nn.functional as F
 from layers.Transformer_EncDec import Decoder, DecoderLayer, Encoder, EncoderLayer, ConvLayer
 from layers.SelfAttention_Family import FullAttention, AttentionLayer
-from layers.Embed import DataEmbedding
+from layers.Embed_my import DataEmbedding
 import numpy as np
+from layers.Invertible_weight_pro import RevIN_weight
+from layers.MetaGuidance import GuidanceGenerator
+import pandas as pd
 
 
 class Model(nn.Module):
@@ -28,14 +31,14 @@ class Model(nn.Module):
                 EncoderLayer(
                     AttentionLayer(
                         FullAttention(False, configs.factor, attention_dropout=configs.dropout,
-                                      output_attention=configs.output_attention), configs.d_model, configs.n_heads),
-                    configs.d_model,
+                                      output_attention=configs.output_attention), 2*configs.d_model, configs.n_heads),
+                    2*configs.d_model,
                     configs.d_ff,
                     dropout=configs.dropout,
                     activation=configs.activation
                 ) for l in range(configs.e_layers)
             ],
-            norm_layer=torch.nn.LayerNorm(configs.d_model)
+            norm_layer=torch.nn.LayerNorm(2*configs.d_model)
         )
         # Decoder
         if self.task_name == 'long_term_forecast' or self.task_name == 'short_term_forecast':
@@ -63,13 +66,17 @@ class Model(nn.Module):
                 projection=nn.Linear(configs.d_model, configs.c_out, bias=True)
             )
         if self.task_name == 'imputation':
-            self.projection = nn.Linear(configs.d_model, configs.c_out, bias=True)
+            self.projection = nn.Linear(2*configs.d_model, configs.c_out, bias=True)
         if self.task_name == 'anomaly_detection':
             self.projection = nn.Linear(configs.d_model, configs.c_out, bias=True)
         if self.task_name == 'classification':
             self.act = F.gelu
             self.dropout = nn.Dropout(configs.dropout)
             self.projection = nn.Linear(configs.d_model * configs.seq_len, configs.num_class)
+
+        # self.rev_weight = RevIN_weight(configs.enc_in, configs.seq_len, configs.k, configs.r)
+        self.rev_weight = GuidanceGenerator(configs.enc_in, configs.seq_len, configs.k, configs.r)
+        
 
     def forecast(self, x_enc, x_mark_enc, x_dec, x_mark_dec):
         # Embedding
@@ -81,26 +88,23 @@ class Model(nn.Module):
         return dec_out
 
     def imputation(self, x_enc, x_mark_enc, x_dec, x_mark_dec, mask):
+        B, T, N = x_enc.shape
+        x_interpolate = x_enc.clone()
+        # x_interpolate[mask == 0] = np.nan
+        # df = pd.DataFrame(x_interpolate.contiguous().reshape(-1, B).cpu().numpy())
+        # df.interpolate(limit_direction='both', inplace=True)
+        # x_interpolate = torch.from_numpy(df.values).reshape(B, T, N).to(x_enc.device)
 
-        # Normalization from Non-stationary Transformer
-        means = torch.sum(x_enc, dim=1) / torch.sum(mask == 1, dim=1)
-        means = means.unsqueeze(1).detach()
-        x_enc = x_enc - means
-        x_enc = x_enc.masked_fill(mask == 0, 0)
-        stdev = torch.sqrt(torch.sum(x_enc * x_enc, dim=1) /
-                           torch.sum(mask == 1, dim=1) + 1e-5)
-        stdev = stdev.unsqueeze(1).detach()
-        x_enc /= stdev
+        # RevIN_weight
+        x_enc, weight = self.rev_weight(x_enc, 'norm', mask, x_interpolate)
 
         # Embedding
-        enc_out = self.enc_embedding(x_enc, x_mark_enc)
+        enc_out = self.enc_embedding(x_enc, x_mark_enc, weight)
         enc_out, attns = self.encoder(enc_out, attn_mask=None)
-
         dec_out = self.projection(enc_out)
 
-        # De-Normalization from Non-stationary Transformer
-        dec_out = dec_out * stdev
-        dec_out = dec_out + means
+        # RevIN_weight
+        dec_out = self.rev_weight(dec_out, 'denorm', mask, x_interpolate)
 
         return dec_out
 
@@ -126,6 +130,7 @@ class Model(nn.Module):
         return output
 
     def forward(self, x_enc, x_mark_enc, x_dec, x_mark_dec, mask=None):
+        
         if self.task_name == 'long_term_forecast' or self.task_name == 'short_term_forecast':
             dec_out = self.forecast(x_enc, x_mark_enc, x_dec, x_mark_dec)
             return dec_out[:, -self.pred_len:, :]  # [B, L, D]

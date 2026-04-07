@@ -1,0 +1,95 @@
+imputation_HD_norev_myTransformer_MyData_ftM_sl96_ll0_pl0_dm16_nh8_el2_dl1_df32_fc3_ebtimeF_dtTrue_Exp_1_seed0  
+rate:0.1, seed:1, k:3, r:3 
+mae, mse: 
+169737.1875	343492198400.0
+
+imputation_Weather_norev_myTransformer_MyData_ftM_sl96_ll0_pl0_dm64_nh8_el2_dl1_df64_fc3_ebtimeF_dtTrue_Exp_1_seed0  
+rate:0.1, seed:1, k:3, r:3 
+mae, mse: 
+4.0153021812438965	363.9559631347656
+
+imputation_HD_norev_myTimesNet_MyData_ftM_sl96_ll0_pl0_dm16_nh8_el2_dl1_df32_fc3_ebtimeF_dtTrue_Exp_1_seed0  
+rate:0.1, seed:1, k:3, r:3 
+mae, mse: 
+172108.59375	333928300544.0
+
+imputation_Weather_norev_myTimesNet_MyData_ftM_sl96_ll0_pl0_dm64_nh8_el2_dl1_df64_fc3_ebtimeF_dtTrue_Exp_1_seed0  
+rate:0.1, seed:1, k:3, r:3 
+mae, mse: 
+4.751770496368408	466.7660217285156
+
+imputation_TCPC_norev_myTransformer_MyData_ftM_sl96_ll0_pl0_dm16_nh8_el2_dl1_df32_fc3_ebtimeF_dtTrue_Exp_1_seed0  
+rate:0.1, seed:1, k:3, r:3 
+mae, mse: 
+169.86007690429688	142007.234375
+
+imputation_traffic_w_rev_myTransformer_MyData_ftM_sl96_ll0_pl0_dm512_nh8_el2_dl1_df512_fc3_ebtimeF_dtTrue_Exp_1_seed0  
+rate:0.1, seed:1, k:3, r:3 
+mae, mse: 
+0.008809687569737434	0.00033147932845167816
+
+imputation_ETTh1_norev_myTransformer_MyData_ftM_sl96_ll0_pl0_dm16_nh8_el2_dl1_df32_fc3_ebtimeF_dtTrue_Exp_1_seed0  
+rate:0.1, seed:1, k:3, r:3 
+mae, mse: 
+0.571840763092041	1.1293659210205078
+
+imputation_ETTh2_norev_myTransformer_MyData_ftM_sl96_ll0_pl0_dm16_nh8_el2_dl1_df32_fc3_ebtimeF_dtTrue_Exp_1_seed0  
+rate:0.1, seed:1, k:3, r:3 
+mae, mse: 
+0.7075715661048889	1.1521165370941162
+
+imputation_TCPC_norev_myTimesNet_MyData_ftM_sl96_ll0_pl0_dm16_nh8_el2_dl1_df32_fc3_ebtimeF_dtTrue_Exp_1_seed0  
+rate:0.1, seed:1, k:3, r:3 
+mae, mse: 
+91.86198425292969	44794.7265625
+
+imputation_ETTm1_norev_myTransformer_MyData_ftM_sl96_ll0_pl0_dm16_nh8_el2_dl1_df32_fc3_ebtimeF_dtTrue_Exp_1_seed0  
+rate:0.1, seed:1, k:3, r:3 
+mae, mse: 
+0.3495899736881256	0.43868449330329895
+
+imputation_traffic_w_rev_myTimesNet_MyData_ftM_sl96_ll0_pl0_dm512_nh8_el2_dl1_df512_fc3_ebtimeF_dtTrue_Exp_1_seed0  
+rate:0.1, seed:1, k:3, r:3 
+mae, mse: 
+0.01056052464991808	0.0005181573797017336
+
+imputation_ETTm2_norev_myTransformer_MyData_ftM_sl96_ll0_pl0_dm16_nh8_el2_dl1_df32_fc3_ebtimeF_dtTrue_Exp_1_seed0  
+rate:0.1, seed:1, k:3, r:3 
+mae, mse: 
+0.46511200070381165	0.5059190988540649
+
+imputation_ETTh1_norev_myTimesNet_MyData_ftM_sl96_ll0_pl0_dm16_nh8_el2_dl1_df32_fc3_ebtimeF_dtTrue_Exp_1_seed0  
+rate:0.1, seed:1, k:3, r:3 
+mae, mse: 
+0.5415349006652832	0.9431781768798828
+
+imputation_ETTh2_norev_myTimesNet_MyData_ftM_sl96_ll0_pl0_dm16_nh8_el2_dl1_df32_fc3_ebtimeF_dtTrue_Exp_1_seed0  
+rate:0.1, seed:1, k:3, r:3 
+mae, mse: 
+0.6601369976997375	0.9486120939254761
+
+imputation_ETTm1_norev_myTimesNet_MyData_ftM_sl96_ll0_pl0_dm16_nh8_el2_dl1_df32_fc3_ebtimeF_dtTrue_Exp_1_seed0  
+rate:0.1, seed:1, k:3, r:3 
+mae, mse: 
+0.29386991262435913	0.2927040159702301
+
+imputation_ETTm2_norev_myTimesNet_MyData_ftM_sl96_ll0_pl0_dm16_nh8_el2_dl1_df32_fc3_ebtimeF_dtTrue_Exp_1_seed0  
+rate:0.1, seed:1, k:3, r:3 
+mae, mse: 
+0.4074704945087433	0.38681143522262573
+
+imputation_electricity_w_rev_myTimesNet_MyData_ftM_sl96_ll0_pl0_dm128_nh8_el2_dl1_df128_fc3_ebtimeF_dtTrue_Exp_1_seed0  
+rate:0.1, seed:1, k:3, r:3 
+mae, mse: 
+183.0182342529297	2722896.0
+
+imputation_electricity_w_rev_myTransformer_MyData_ftM_sl96_ll0_pl0_dm128_nh8_el2_dl1_df128_fc3_ebtimeF_dtTrue_Exp_1_seed0  
+rate:0.1, seed:1, k:3, r:3 
+mae, mse: 
+175.17120361328125	2872040.25
+
+imputation_HD_norev_myTransformer_MyData_ftM_sl96_ll0_pl0_dm16_nh8_el2_dl1_df32_fc3_ebtimeF_dtTrue_Exp_1_seed0  
+rate:0.1, seed:1, k:3, r:3 
+mae, mse: 
+169736.984375	343491641344.0
+

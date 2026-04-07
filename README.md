@@ -1,89 +1,357 @@
-# Time Series Library (TSlib)
-TSlib is an open-source library for deep learning researchers, especially for deep time series analysis.
+# Meta Guidance: Incorporating Inductive Biases into Deep Time Series Imputers
 
-We provide a neat code base to evaluate advanced deep time series models or develop your model, which covers five mainstream tasks: **long- and short-term forecasting, imputation, anomaly detection, and classification.**
+> A lightweight, model-agnostic module that incorporates **Non-Stationary** and **Periodic** inductive biases into deep time series imputation models, achieving an average **27.39%** error reduction across nine benchmark datasets.
 
-:triangular_flag_on_post:**News** (2023.10) We add an implementation to [iTransformer](https://arxiv.org/abs/2310.06625), which is the state-of-the-art model for long-term forecasting. The official code and complete scripts of iTransformer can be found [here](https://github.com/thuml/iTransformer).
+## Authors
 
-:triangular_flag_on_post:**News** (2023.09) We added a detailed [tutorial](https://github.com/thuml/Time-Series-Library/blob/main/tutorial/TimesNet_tutorial.ipynb) for [TimesNet](https://openreview.net/pdf?id=ju_Uqw384Oq) and this library, which is quite friendly to beginners of deep time series analysis.
+**Jiacheng You**<sup>1</sup>, **Xinyang Chen**<sup>1</sup>, **Yu Sun**<sup>2</sup>, **Weili Guan**<sup>3</sup>, **Liqiang Nie**<sup>1</sup>\*
 
-## Leaderboard for Time Series Analysis
+<sup>1</sup> School of Computer Science and Technology, Harbin Institute of Technology (Shenzhen)  
+<sup>2</sup> College of Computer Science, DISSec, Nankai University  
+<sup>3</sup> School of Information Science and Technology, Harbin Institute of Technology (Shenzhen)  
+\* Corresponding author
 
-Till October 2023, the top three models for five different tasks are:
+## Links
 
-| Model<br>Ranking | Long-term<br>Forecasting                          | Short-term<br>Forecasting                                    | Imputation                                                   | Classification                                         |  Anomaly<br>Detection                                    |
-| ---------------- |---------------------------------------------------| ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | -------------------------------------------------- |
-| 🥇 1st            | [iTransformer](https://arxiv.org/abs/2310.06625)  | [TimesNet](https://arxiv.org/abs/2210.02186)                 | [TimesNet](https://arxiv.org/abs/2210.02186)                 | [TimesNet](https://arxiv.org/abs/2210.02186)                 | [TimesNet](https://arxiv.org/abs/2210.02186)       |
-| 🥈 2nd            |   [PatchTST](https://github.com/yuqinie98/PatchTST)    | [Non-stationary<br/>Transformer](https://github.com/thuml/Nonstationary_Transformers) | [Non-stationary<br/>Transformer](https://github.com/thuml/Nonstationary_Transformers) | [Non-stationary<br/>Transformer](https://github.com/thuml/Nonstationary_Transformers) | [FEDformer](https://github.com/MAZiqing/FEDformer) |
-| 🥉 3rd            | [TimesNet](https://arxiv.org/abs/2210.02186) | [FEDformer](https://github.com/MAZiqing/FEDformer)           | [Autoformer](https://github.com/thuml/Autoformer)            | [Informer](https://github.com/zhouhaoyi/Informer2020)        | [Autoformer](https://github.com/thuml/Autoformer)  |
+- **Paper**: NIPS 2025
+- **Code Repository**: [`GitHub`](https://github.com/iLearn-Lab/NIPS2025-Meta-Guidance)
+- **Base Framework**: [Time-Series-Library (THUML)](https://github.com/thuml/Time-Series-Library)
 
+---
 
-**Note: We will keep updating this leaderboard.** If you have proposed advanced and awesome models, you can send us your paper/code link or raise a pull request. We will add them to this repo and update the leaderboard as soon as possible.
+## Table of Contents
 
-**Compared models of this leaderboard.** ☑ means that their codes have already been included in this repo.
-  - [x] **iTransformer** - iTransformer: Inverted Transformers Are Effective for Time Series Forecasting [[arXiv 2023]](https://arxiv.org/abs/2310.06625) [[Code]](https://github.com/thuml/Time-Series-Library/blob/main/models/iTransformer.py).
-  - [x] **PatchTST** - A Time Series is Worth 64 Words: Long-term Forecasting with Transformers [[ICLR 2023]](https://openreview.net/pdf?id=Jbdc0vTOcol) [[Code]](https://github.com/thuml/Time-Series-Library/blob/main/models/PatchTST.py).
-  - [x] **TimesNet** - TimesNet: Temporal 2D-Variation Modeling for General Time Series Analysis [[ICLR 2023]](https://openreview.net/pdf?id=ju_Uqw384Oq) [[Code]](https://github.com/thuml/Time-Series-Library/blob/main/models/TimesNet.py).
-  - [x] **DLinear** - Are Transformers Effective for Time Series Forecasting? [[AAAI 2023]](https://arxiv.org/pdf/2205.13504.pdf) [[Code]](https://github.com/thuml/Time-Series-Library/blob/main/models/DLinear.py).
-  - [x] **LightTS** - Less Is More: Fast Multivariate Time Series Forecasting with Light Sampling-oriented MLP Structures [[arXiv 2022]](https://arxiv.org/abs/2207.01186) [[Code]](https://github.com/thuml/Time-Series-Library/blob/main/models/LightTS.py).
-  - [x] **ETSformer** - ETSformer: Exponential Smoothing Transformers for Time-series Forecasting [[arXiv 2022]](https://arxiv.org/abs/2202.01381) [[Code]](https://github.com/thuml/Time-Series-Library/blob/main/models/ETSformer.py).
-  - [x] **Non-stationary Transformer** - Non-stationary Transformers: Exploring the Stationarity in Time Series Forecasting [[NeurIPS 2022]](https://openreview.net/pdf?id=ucNDIDRNjjv) [[Code]](https://github.com/thuml/Time-Series-Library/blob/main/models/Nonstationary_Transformer.py).
-  - [x] **FEDformer** - FEDformer: Frequency Enhanced Decomposed Transformer for Long-term Series Forecasting [[ICML 2022]](https://proceedings.mlr.press/v162/zhou22g.html) [[Code]](https://github.com/thuml/Time-Series-Library/blob/main/models/FEDformer.py).
-  - [x] **Pyraformer** - Pyraformer: Low-complexity Pyramidal Attention for Long-range Time Series Modeling and Forecasting [[ICLR 2022]](https://openreview.net/pdf?id=0EXmFzUn5I) [[Code]](https://github.com/thuml/Time-Series-Library/blob/main/models/Pyraformer.py).
-  - [x] **Autoformer** - Autoformer: Decomposition Transformers with Auto-Correlation for Long-Term Series Forecasting [[NeurIPS 2021]](https://openreview.net/pdf?id=I55UqU-M11y) [[Code]](https://github.com/thuml/Time-Series-Library/blob/main/models/Autoformer.py).
-  - [x] **Informer** - Informer: Beyond Efficient Transformer for Long Sequence Time-Series Forecasting [[AAAI 2021]](https://ojs.aaai.org/index.php/AAAI/article/view/17325/17132) [[Code]](https://github.com/thuml/Time-Series-Library/blob/main/models/Informer.py).
-  - [x] **Reformer** - Reformer: The Efficient Transformer [[ICLR 2020]](https://openreview.net/forum?id=rkgNKkHtvB) [[Code]](https://github.com/thuml/Time-Series-Library/blob/main/models/Reformer.py).
-  - [x] **Transformer** - Attention is All You Need [[NeurIPS 2017]](https://proceedings.neurips.cc/paper/2017/file/3f5ee243547dee91fbd053c1c4a845aa-Paper.pdf) [[Code]](https://github.com/thuml/Time-Series-Library/blob/main/models/Transformer.py).
+- [Updates](#updates)
+- [Introduction](#introduction)
+- [Highlights](#highlights)
+- [Method / Framework](#method--framework)
+- [Project Structure](#project-structure)
+- [Installation](#installation)
+- [Checkpoints / Models](#checkpoints--models)
+- [Dataset / Benchmark](#dataset--benchmark)
+- [Usage](#usage)
+- [Demo / Visualization](#demo--visualization)
+- [TODO](#todo)
+- [Citation](#citation)
+- [Acknowledgement](#acknowledgement)
+- [License](#license)
 
-See our latest paper [[TimesNet]](https://arxiv.org/abs/2210.02186) for the comprehensive benchmark. We will release a real-time updated online version soon.
+---
 
-**Newly added baselines.** We will add them to the leaderboard after a comprehensive evaluation.
-  - [x] **Koopa** - Koopa: Learning Non-stationary Time Series Dynamics with Koopman Predictors [[NeurIPS 2023]](https://arxiv.org/pdf/2305.18803.pdf) [[Code]](https://github.com/thuml/Time-Series-Library/blob/main/models/Koopa.py).
-  - [x] **TiDE** - Long-term Forecasting with TiDE: Time-series Dense Encoder [[arXiv 2023]](https://arxiv.org/pdf/2304.08424.pdf) [[Code]](https://github.com/thuml/Time-Series-Library/blob/main/models/TiDE.py).
-  - [x] **FiLM** - FiLM: Frequency improved Legendre Memory Model for Long-term Time Series Forecasting [[NeurIPS 2022]](https://openreview.net/forum?id=zTQdHSQUQWc)[[Code]](https://github.com/thuml/Time-Series-Library/blob/main/models/FiLM.py).
-  - [x] **MICN** - MICN: Multi-scale Local and Global Context Modeling for Long-term Series Forecasting [[ICLR 2023]](https://openreview.net/pdf?id=zt53IDUR1U)[[Code]](https://github.com/thuml/Time-Series-Library/blob/main/models/MICN.py).
-  - [x] **Crossformer** - Crossformer: Transformer Utilizing Cross-Dimension Dependency for Multivariate Time Series Forecasting [[ICLR 2023]](https://openreview.net/pdf?id=vSVLM2j9eie)[[Code]](https://github.com/thuml/Time-Series-Library/blob/main/models/Crossformer.py).
- 
-## Usage
+## Updates
 
-1. Install Python 3.8. For convenience, execute the following command.
+- [04/2026] Initial release
 
+---
+
+## Introduction
+
+本项目是论文 **Meta Guidance: Incorporating Inductive Biases into Deep Time Series Imputers**（NIPS 2025）的官方实现。
+
+时间序列插补是数据分析和机器学习中的关键任务。现有的深度插补方法通常采用端到端学习隐式推断时间模式，忽略了显式融入与时间序列特征对齐的**领域先验知识（inductive biases）**的巨大潜力。本项目利用时间序列的**非平稳性（non-stationarity）**和**周期性（periodicity）**两种特性，提出了两种领域特定的先验引导机制：**非平稳引导（Non-Stationary Guidance, NSG）**和**周期引导（Periodic Guidance, PG）**，并通过**元引导（MetaGuidance, MG）**自适应地融合两者。在九个基准数据集上，将 MetaGuidance 注入现有深度插补架构，平均实现了 **27.39%** 的插补误差降低。
+
+### Core Idea
+
+We present **MetaGuidance (MG)**, a lightweight and model-agnostic guidance mechanism for **time series imputation**. By exploiting the non-stationarity and periodicity properties of time series data, two domain-specific inductive biases are designed:
+
+- **Non-Stationary Guidance (NSG)**: Operationalizes the proximity principle to address highly non-stationary series by emphasizing temporal neighbors. A channel-wise scaling scalar $\gamma^{NS}_c$ is learned via MLP to dynamically adjust the guidance strength.
+- **Periodic Guidance (PG)**: Exploits periodicity patterns by extracting the top-$k$ dominant frequencies via FFT and assigning learnable weights to values at corresponding periodic offsets. A period-specific scaling scalar $\gamma^{Per}_{l,c}$ is learned via MLP for each significant frequency.
+- **MetaGuidance Fusion**: MG adaptively learns a data-driven weight $\lambda_c \in [0,1]$ (via MLP with Sigmoid activation) to fuse NSG and PG: $g^{Meta}_{:,c} = \lambda_c \cdot g^{NS}_{:,c} + (1 - \lambda_c) \cdot g^{PG}_{:,c}$.
+- **Model-Agnostic Design**: MG can be seamlessly injected into diverse deep imputation architectures (Transformer, TimesNet, iTransformer, PatchTST, Nonstationary Transformer, etc.) by modifying the normalization and embedding modules, without changing the core model architectures.
+
+This repository provides:
+  - Training and evaluation code for imputation tasks
+  - Multiple backbone models enhanced with MetaGuidance
+  - Experiment scripts for various benchmark datasets
+  - Pre-trained checkpoints
+
+---
+
+## Highlights
+
+- Proposes two imputation-oriented inductive biases: **Non-Stationary Guidance (NSG)** and **Periodic Guidance (PG)**
+- Introduces **MetaGuidance (MG)**, a lightweight, model-agnostic module that adaptively fuses NSG and PG via data-driven weights
+- Achieves an average **27.39% error reduction** across **nine real-world benchmark datasets**
+- Can be seamlessly integrated into diverse deep imputation architectures (Transformer, TimesNet, iTransformer, etc.)
+- Provides comprehensive experiment scripts and evaluation metrics (MAE, MSE)
+
+---
+
+## Method / Framework
+
+### Framework Overview
+
+MetaGuidance consists of three core components:
+
+1. **Non-Stationary Guidance (NSG)**: For each missing value at position $(t, c)$, NSG assigns guidance weights to observed values within a neighborhood range $[-r, r]$, weighted by a Gaussian distribution $\psi(i)$ scaled by a learnable channel-wise multiplier $\gamma^{NS}_c$ (learned via MLP). This captures local temporal continuity via the proximity principle.
+
+2. **Periodic Guidance (PG)**: Extracts the top-$k$ dominant frequencies from each channel via FFT, converts them to period lengths $p_{l,c}$, and assigns guidance weights to observed values at periodic offsets ($i \cdot p_{l,c} + t$). Each period is weighted by a learnable scaling scalar $\gamma^{Per}_{l,c}$ (learned via MLP) and an amplitude-based significance score.
+
+3. **MetaGuidance Fusion**: Learns a data-adaptive weight $\lambda_c = \text{MLP}(x', g^{NS}, g^{PG})$ with Sigmoid activation ($\lambda_c \in [0,1]$) to fuse NSG and PG per channel: $g^{Meta} = \lambda_c \cdot g^{NS} + (1 - \lambda_c) \cdot g^{PG}$.
+
+MetaGuidance is injected into the backbone model through two integration points:
+- **Weighted Normalization**: Replaces standard RevIN by computing weighted mean and variance using $g^{Meta}$ as guidance weights
+- **Guidance Embedding**: A dedicated embedding branch $E_{Meta} = \text{Embedding}(g^{Meta} \odot X)$ concatenated with the standard input embedding
+
+**Figure 1.** Overall framework of injecting Meta Guidance into the Transformer. Compared to the vanilla Transformer, it includes additional components: the Guidance Generator, the Guidance Embedding module, and weighted Normalization / De-normalization modules.
+
+---
+
+## Project Structure
+
+```text
+.
+├── checkpoints/                # Pre-trained model weights
+├── data_provider/               # Data loading and preprocessing
+│   └── data_factory_my.py       # Custom data provider for imputation
+├── dataset/                     # Datasets (ETT, Weather, Electricity, Traffic, etc.)
+│   ├── ETT-small/               # ETT datasets
+│   ├── weather/
+│   ├── electricity/
+│   ├── traffic/
+│   ├── HD/
+│   ├── TCPC/
+│   └── make_miss_csv.py         # Script to create data with missing values
+├── exp/                         # Experiment definitions
+│   ├── exp_imputation_my.py     # Custom imputation experiment (MetaGuidance)
+│   └── exp_basic.py             # Base experiment class
+├── layers/                      # Neural network layers
+│   ├── MetaGuidance.py          # Core: GuidanceGenerator implementation
+│   ├── Invertible_weight_pro.py # Core: Weighted RevIN implementation
+│   ├── Embed_my.py              # Custom embeddings with weight-aware embedding
+│   ├── Transformer_EncDec.py    # Encoder/Decoder for Transformer
+│   └── SelfAttention_Family.py  # Attention mechanisms
+├── models/                      # Model implementations
+│   ├── Transformer_my.py        # Transformer + MetaGuidance (no interpolation)
+│   ├── TimesNet_my.py           # TimesNet + RevIN_weight (with interpolation)
+│   ├── iTransformer_my.py       # iTransformer + MetaGuidance (no interpolation)
+│   ├── PatchTST_my.py           # PatchTST + RevIN_weight (with interpolation)
+│   ├── Nonstationary_Transformer_my.py  # Nonstationary Transformer + RevIN_weight
+│   └── *.py                     # Other baseline models
+├── scripts/                     # Experiment scripts
+│   ├── imputation/              # Imputation experiment scripts
+│   ├── long_term_forecast/      # Long-term forecasting scripts
+│   ├── short_term_forecast/     # Short-term forecasting scripts
+│   ├── anomaly_detection/       # Anomaly detection scripts
+│   └── classification/          # Classification scripts
+├── results/                     # Experiment result files (.npy)
+├── test_results/                # Visualization results (.pdf)
+├── pic/                         # Images
+│   └── dataset.png
+├── utils/                       # Utility functions
+├── myrun.py                     # Main entry point (MetaGuidance variant)
+├── run.py                       # Main entry point (baseline variant)
+├── requirements.txt
+├── LICENSE
+└── README.md
 ```
+
+---
+
+## Installation
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/<your-org>/<repo-name>.git
+cd <repo-name>
+```
+
+### 2. Create environment
+
+```bash
+python -m venv .venv
+source .venv/bin/activate   # Linux / Mac
+# .venv\Scripts\activate    # Windows
+```
+
+### 3. Install dependencies
+
+```bash
 pip install -r requirements.txt
 ```
 
-2. Prepare Data. You can obtain the well pre-processed datasets from [[Google Drive]](https://drive.google.com/drive/folders/13Cg1KYOlzM5C7K8gK8NfC-F3EYxkM3D2?usp=sharing) or [[Baidu Drive]](https://pan.baidu.com/s/1r3KhGd0Q9PJIUZdfEYoymg?pwd=i9iy), Then place the downloaded data in the folder`./dataset`. Here is a summary of supported datasets.
+> **Note**: This project requires PyTorch >= 1.7.1. Please install the appropriate PyTorch version for your CUDA environment from [PyTorch official website](https://pytorch.org/).
 
-<p align="center">
-<img src=".\pic\dataset.png" height = "200" alt="" align=center />
-</p>
+---
 
-3. Train and evaluate model. We provide the experiment scripts for all benchmarks under the folder `./scripts/`. You can reproduce the experiment results as the following examples:
+## Checkpoints / Models
 
-```
-# long-term forecast
-bash ./scripts/long_term_forecast/ETT_script/TimesNet_ETTh1.sh
-# short-term forecast
-bash ./scripts/short_term_forecast/TimesNet_M4.sh
-# imputation
-bash ./scripts/imputation/ETT_script/TimesNet_ETTh1.sh
-# anomaly detection
-bash ./scripts/anomaly_detection/PSM/TimesNet.sh
-# classification
-bash ./scripts/classification/TimesNet.sh
+Pre-trained checkpoints are provided in the `checkpoints/` directory (32 `.pth` files).
+
+To use a checkpoint for testing:
+
+```bash
+python myrun.py \
+  --task_name imputation \
+  --is_training 0 \
+  --model myTransformer \
+  ... (other args)
 ```
 
-4. Develop your own model.
+---
 
-- Add the model file to the folder `./models`. You can follow the `./models/Transformer.py`.
-- Include the newly added model in the `Exp_Basic.model_dict` of  `./exp/exp_basic.py`.
-- Create the corresponding scripts under the folder `./scripts`.
+## Dataset / Benchmark
+
+This project evaluates on the following benchmark datasets:
+
+| Dataset | Variables | Description |
+|---|---|---|
+| ETTh1 | 7 | Electricity Transformer Temperature (hourly) |
+| ETTh2 | 7 | Electricity Transformer Temperature (hourly) |
+| ETTm1 | 7 | Electricity Transformer Temperature (15-min) |
+| ETTm2 | 7 | Electricity Transformer Temperature (15-min) |
+| Weather | 21 | Weather conditions |
+| Electricity | 321 | Electricity consumption |
+| Traffic | 862 | Highway traffic flow |
+| TCPC | 8 | Private dataset |
+| HD | 5 | Private dataset |
+
+Data should be placed in the `dataset/` directory. For datasets with missing values, use the `dataset/make_miss_csv.py` script to generate corrupted versions.
+
+> Public datasets (ETT, Weather, Electricity, Traffic) can be obtained from the [Time-Series-Library](https://github.com/thuml/Time-Series-Library) repository.
+
+---
+
+## Usage
+
+### Training (Imputation with MetaGuidance)
+
+Use `myrun.py` for the MetaGuidance variant (no interpolation):
+
+```bash
+python myrun.py \
+  --task_name imputation \
+  --is_training 1 \
+  --root_path ./dataset/ETT-small/ \
+  --data_path ETTh1.csv \
+  --model_id ETTh1_norev \
+  --model myTransformer \
+  --data MyData \
+  --features M \
+  --seq_len 96 \
+  --label_len 0 \
+  --pred_len 0 \
+  --e_layers 2 \
+  --d_layers 1 \
+  --factor 3 \
+  --enc_in 7 \
+  --dec_in 7 \
+  --c_out 7 \
+  --batch_size 16 \
+  --d_model 16 \
+  --d_ff 32 \
+  --des 'Exp' \
+  --itr 1 \
+  --top_k 3 \
+  --learning_rate 0.001 \
+  --mask_rate 0.1 \
+  --seed 1
+```
+
+Or use provided shell scripts:
+
+```bash
+bash ./scripts/imputation/exe.sh
+```
+
+### Training (Baseline without MetaGuidance)
+
+Use `run.py` for the baseline variant:
+
+```bash
+python run.py \
+  --task_name imputation \
+  --is_training 1 \
+  --root_path ./dataset/ETT-small/ \
+  --data_path ETTh1.csv \
+  --model Transformer \
+  --data ETTh1 \
+  --features M \
+  --seq_len 96 \
+  --label_len 0 \
+  --pred_len 0 \
+  --e_layers 2 \
+  --d_layers 1 \
+  --enc_in 7 \
+  --dec_in 7 \
+  --c_out 7 \
+  --batch_size 16 \
+  --d_model 128 \
+  --d_ff 128 \
+  --mask_rate 0.25
+```
+
+### Testing
+
+```bash
+python myrun.py \
+  --task_name imputation \
+  --is_training 0 \
+  ... (same args as training)
+```
+
+### Key Arguments
+
+| Argument | Description | Default |
+|---|---|---|
+| `--task_name` | Task type: `imputation`, `long_term_forecast`, etc. | Required |
+| `--model` | Model name: `myTransformer`, `myTimesNet`, `iTransformer_my`, `NS_Transformer_my`, `PatchTST_my`, etc. | Required |
+| `--mask_rate` | Missing ratio for imputation | 0.25 |
+| `--k` | Number of top periodic components | 3 |
+| `--r` | Range of temporal neighbors for guidance | 3 |
+| `--weight_rev` | Whether to apply weighted RevIN | True |
+| `--seed` | Random seed | 2 |
+
+### Long-term Forecasting
+
+```bash
+bash ./scripts/long_term_forecast/ETT_script/<model>_ETTh1.sh
+```
+
+---
+
+## Demo / Visualization
+
+Visualization results (PDF) are saved to `test_results/` during testing.
+
+### Example Results (Imputation)
+
+The following table shows imputation results (MAE / MSE) on ETTh1 at 10% mask rate:
+
+| Model | MAE | MSE |
+|---|---:|---:|
+| Transformer + MetaGuidance | 0.5718 | 1.1294 |
+| TimesNet + MetaGuidance | 0.5415 | 0.9432 |
+
+Results are also recorded in `result_imputation.txt`.
+
+---
+
+## TODO
+
+- [ ] Add framework figure to `pic/`
+- [ ] Upload checkpoints to Hugging Face
+- [ ] Release project page
+
+---
 
 ## Citation
 
-If you find this repo useful, please cite our paper.
+If you find this repo useful, please cite our paper:
 
+```bibtex
+@article{you2025meta,
+  title={Meta Guidance: Incorporating Inductive Biases into Deep Time Series Imputers},
+  author={Jiacheng You and Xinyang Chen and Yu Sun and Weili Guan and Liqiang Nie},
+  booktitle={Advances in Neural Information Processing Systems (NeurIPS)},
+  year={2025}
+}
 ```
+
+Base framework citation:
+
+```bibtex
 @inproceedings{wu2023timesnet,
   title={TimesNet: Temporal 2D-Variation Modeling for General Time Series Analysis},
   author={Haixu Wu and Tengge Hu and Yong Liu and Hang Zhou and Jianmin Wang and Mingsheng Long},
@@ -92,40 +360,15 @@ If you find this repo useful, please cite our paper.
 }
 ```
 
-## Contact
-If you have any questions or suggestions, feel free to contact:
-
-- Haixu Wu (wuhx23@mails.tsinghua.edu.cn)
-- Tengge Hu (htg21@mails.tsinghua.edu.cn)
-- Haoran Zhang (z-hr20@mails.tsinghua.edu.cn)
-- Jiawei Guo (guo-jw21@mails.tsinghua.edu.cn)
-
-Or describe it in Issues.
+---
 
 ## Acknowledgement
 
-This project is supported by the National Key R&D Program of China (2021YFB1715200).
+- Thanks to the open-source [Time-Series-Library (THUML/Tsinghua)](https://github.com/thuml/Time-Series-Library) for providing the base framework.
+- Thanks to the open-source community for providing useful baselines and tools.
 
-This library is constructed based on the following repos:
+---
 
-- Forecasting: https://github.com/thuml/Autoformer.
+## License
 
-- Anomaly Detection: https://github.com/thuml/Anomaly-Transformer.
-
-- Classification: https://github.com/thuml/Flowformer.
-
-All the experiment datasets are public, and we obtain them from the following links:
-
-- Long-term Forecasting and Imputation: https://github.com/thuml/Autoformer.
-
-- Short-term Forecasting: https://github.com/ServiceNow/N-BEATS.
-
-- Anomaly Detection: https://github.com/thuml/Anomaly-Transformer.
-
-- Classification: https://www.timeseriesclassification.com/.
-
-## All Thanks To Our Contributors
-
-<a href="https://github.com/thuml/Time-Series-Library/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=thuml/Time-Series-Library" />
-</a>
+This project is released under the MIT License.
