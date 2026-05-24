@@ -46,9 +46,9 @@
 
 ## Introduction
 
-本项目是论文 **Meta Guidance: Incorporating Inductive Biases into Deep Time Series Imputers**（NIPS 2025）的官方实现。
+This project is the official implementation of the paper **Meta Guidance: Incorporating Inductive Biases into Deep Time Series Imputers** presented at NeurIPS 2025.
 
-时间序列插补是数据分析和机器学习中的关键任务。现有的深度插补方法通常采用端到端学习隐式推断时间模式，忽略了显式融入与时间序列特征对齐的**领域先验知识（inductive biases）**的巨大潜力。本项目利用时间序列的**非平稳性（non-stationarity）**和**周期性（periodicity）**两种特性，提出了两种领域特定的先验引导机制：**非平稳引导（Non-Stationary Guidance, NSG）**和**周期引导（Periodic Guidance, PG）**，并通过**元引导（MetaGuidance, MG）**自适应地融合两者。在九个基准数据集上，将 MetaGuidance 注入现有深度插补架构，平均实现了 **27.39%** 的插补误差降低。
+Time series imputation is a fundamental task in data analysis and machine learning. Existing deep imputation methods typically rely on end-to-end learning to implicitly infer temporal patterns, while overlooking the significant potential of explicitly incorporating **domain-specific inductive biases** that align with the intrinsic characteristics of time series data. To address this limitation, this project leverages two essential properties of time series data, namely **non-stationarity** and **periodicity**, and introduces two domain-specific guidance mechanisms: **Non-Stationary Guidance (NSG)** and **Periodic Guidance (PG)**. Furthermore, a **MetaGuidance (MG)** module is proposed to adaptively integrate these two guidance mechanisms. Extensive experiments on nine benchmark datasets demonstrate that injecting MetaGuidance into existing deep imputation architectures achieves an average imputation error reduction of **27.39%**.
 
 ### Core Idea
 
